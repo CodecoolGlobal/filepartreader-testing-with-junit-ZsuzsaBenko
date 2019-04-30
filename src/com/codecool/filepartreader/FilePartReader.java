@@ -26,12 +26,13 @@ public class FilePartReader {
     }
 
     public void setup(String filePath, Integer fromLine, Integer toLine) {
-        this.filePath = filePath;
-        this.fromLine = fromLine;
-        this.toLine = toLine;
         if (toLine < fromLine || fromLine < 1) {
             throw new IllegalArgumentException();
         }
+        this.filePath = filePath;
+        this.fromLine = fromLine;
+        this.toLine = toLine;
+
     }
 
     public String read() throws IOException{
@@ -43,6 +44,7 @@ public class FilePartReader {
             while ((line = br.readLine()) != null) {
                 text = text.concat(line).concat("\n");
             }
+        br.close();
         return text.substring(0, text.length()-1);
     }
 
@@ -57,7 +59,7 @@ public class FilePartReader {
         String result = "";
         String[] lines = entireText.split("\n");
         for (int i = fromLine - 1; i < Math.min(toLine, lines.length); i++) {
-            result = result.concat(lines[i]).concat(" ");
+            result = result.concat(lines[i]).concat("\n");
         }
         return result.substring(0, result.length()-1);
     }
